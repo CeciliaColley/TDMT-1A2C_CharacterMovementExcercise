@@ -12,7 +12,7 @@ namespace Movement
         [SerializeField] private CharacterBody body;
 
         [Header("Animator Parameters")]
-        [SerializeField] private string jumpTriggerParameter = "jumping";
+        [SerializeField] private string jumpTriggerParameter = "Jumping";
         [SerializeField] private string isFallingParameter = "is_falling";
         [SerializeField] private string horSpeedParameter = "hor_speed";
 

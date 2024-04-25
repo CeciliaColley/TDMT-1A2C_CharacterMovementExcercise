@@ -1,5 +1,6 @@
 using Input;
 using System;
+using TMPro;
 using UnityEngine;
 
 namespace Movement
@@ -14,6 +15,7 @@ namespace Movement
         [SerializeField] private Transform cameraTransform;
         [SerializeField] private bool enableLog = true;
         private Vector3 _desiredDirection;
+        private Vector3 _input;
 
         private void Awake()
         {
@@ -50,6 +52,19 @@ namespace Movement
             inputReader.onJumpInput -= HandleJumpInput;
         }
 
+        private void Update()
+        {
+            if (cameraTransform)
+            {
+                _desiredDirection = cameraTransform.TransformDirection(new Vector3(_input.x, 0, _input.y));
+                _desiredDirection.y = 0;
+                if (_desiredDirection.magnitude > float.Epsilon)
+                {
+                    body.SetMovement(new MovementRequest(_desiredDirection, speed, acceleration));
+                }
+            }
+        }
+
         private void HandleMovementInput(Vector2 input)
         {
             if (_desiredDirection.magnitude > Mathf.Epsilon
@@ -63,11 +78,7 @@ namespace Movement
             }
 
             _desiredDirection = new Vector3(input.x, 0, input.y);
-            if (cameraTransform)
-            {
-                _desiredDirection = cameraTransform.TransformDirection(_desiredDirection);
-                _desiredDirection.y = 0;
-            }
+            _input = input;
             body.SetMovement(new MovementRequest(_desiredDirection, speed, acceleration));
         }
 
