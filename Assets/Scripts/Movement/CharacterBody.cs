@@ -18,7 +18,9 @@ namespace Movement
         public Rigidbody rb;
         public Transform orientation;
 
-        private Vector3 movementForce;
+        private float movementForce;
+        private Vector3 inputDirection;
+        private Vector3 movementDirection;
         private float _drag;
         private Coroutine rotationLerp;
 
@@ -26,45 +28,45 @@ namespace Movement
         {
             rb = GetComponent<Rigidbody>();
             rb.freezeRotation = true;
+            _drag = rb.drag;
+            movementForce = rb.mass * acceleration;
         }
 
         private void FixedUpdate()
         {
-            rb.AddForce(movementForce.x*orientation.right + movementForce.z*orientation.forward, ForceMode.Acceleration);
+            movementDirection = inputDirection.x * orientation.right + inputDirection.z * orientation.forward;
+            rb.AddForce(movementDirection * movementForce, ForceMode.Acceleration);
             characterContainer.transform.rotation = orientation.rotation;
         }
 
         public void Accelerate(Vector3 direction)
         {
-            Rotate(direction);
             if (rb.drag != _drag)
             {
                 rb.drag = _drag;
             }
-            movementForce = direction.normalized * rb.mass * acceleration;
+            inputDirection = direction;
+            Rotate(direction);
         }
 
         public void Decelerate(Vector3 direction)
         {
             rb.drag = breakForce;
-            movementForce = direction.normalized * rb.mass * acceleration;
-            Rotate(direction);
+            inputDirection = direction;
         }
 
         private void Rotate(Vector3 direction)
         {
-            float rotationAmount = Mathf.Asin(direction.x) * Mathf.Rad2Deg; ;
-            if (direction.z < 0)
-            {
-                rotationAmount = (rotationAmount + 180) * -1;
-            }
-            Quaternion rotation = Quaternion.Euler(0, rotationAmount, 0);
+            Vector3 orientedDirection = orientation.TransformDirection(direction);
+            float rotationAmount = Mathf.Atan2(orientedDirection.x, orientedDirection.z) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.Euler(0, rotationAmount, 0);
             if (rotationLerp != null)
             {
                 StopCoroutine(rotationLerp);
             }
-            rotationLerp = StartCoroutine(RotationLerp(rotation));
+            rotationLerp = StartCoroutine(RotationLerp(targetRotation));
         }
+
 
         private IEnumerator RotationLerp(Quaternion targetRotation)
         {
@@ -80,5 +82,7 @@ namespace Movement
             }
             character.transform.rotation = targetRotation;
         }
+
     }
+
 }

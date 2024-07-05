@@ -34,7 +34,6 @@ namespace Movement
             yRotation += mouseX;
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90.0f, 90.0f);
-            yRotation = Mathf.Clamp(yRotation, -90.0f, 90.0f);
         }
     }
 }
