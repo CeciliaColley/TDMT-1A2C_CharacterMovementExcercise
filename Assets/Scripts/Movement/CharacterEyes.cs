@@ -33,7 +33,7 @@ namespace Movement
             float mouseY = lookInput.y * Time.fixedDeltaTime * sensitivity;
             yRotation += mouseX;
             xRotation -= mouseY;
-            xRotation = Mathf.Clamp(xRotation, -90.0f, 90.0f);
+            xRotation = Mathf.Clamp(xRotation, 0f, 30f);
         }
     }
 }

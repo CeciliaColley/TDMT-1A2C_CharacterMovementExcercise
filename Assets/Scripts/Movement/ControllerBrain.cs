@@ -37,11 +37,11 @@ namespace Movement
             Vector3 moveVector = new Vector3(movementInput.x, 0, movementInput.y);
             if (phase == InputActionPhase.Performed)
             {
-                body.Accelerate(moveVector);
+                body.Move(moveVector);
             }
             if (phase == InputActionPhase.Canceled && moveVector == Vector3.zero)
             {
-                body.Decelerate(moveVector);
+                body.Break(moveVector);
             }
         }
 
