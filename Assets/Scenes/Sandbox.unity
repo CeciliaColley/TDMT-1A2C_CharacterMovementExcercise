@@ -5700,7 +5700,7 @@ GameObject:
   - component: {fileID: 359860866}
   - component: {fileID: 359860865}
   m_Layer: 6
-  m_Name: 45_degrees (1)
+  m_Name: 60_degrees
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26539,7 +26539,6 @@ MonoBehaviour:
   character: {fileID: 2125847659}
   rotationSpeed: 0.5
   playerOrientation: {fileID: 981114004}
-  directionalJumping: 1
   jumpForce: 15
   groundedSphereRadius: 0.3
   groundCheckDistance: 0.5
@@ -26547,6 +26546,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   additionalGravity: 20
+  maxWalkableSlopeAngle: 60
 --- !u!114 &1963025842
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ namespace Movement
         [Tooltip("How many seconds it takes to reach Max Speed")]
         [SerializeField] private float accelerationTime = 5.0f;
         [Tooltip("How many seconds it takes to go from Max Speed to 0")]
-        [SerializeField] private float decelerationTime = 5.0f;
+        [SerializeField] private float decelerationTime = 5.0f;        
 
         [Header("References for character rotation and orientation")]
         [SerializeField] private GameObject characterContainer;
@@ -26,14 +26,16 @@ namespace Movement
         [SerializeField] private Transform playerOrientation;
 
         [Header("References for jumping")]
-        [SerializeField] private bool directionalJumping = true;
         [SerializeField] private float jumpForce = 7.0f;
         [Tooltip("The radius of the sphere that checks for a collision with the ground. It should be the same radius as the character collider.")]
         [SerializeField] private float groundedSphereRadius = 0.3f;
         [SerializeField] private float groundCheckDistance = 0.5f;
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private float additionalGravity = 10.0f;
-        
+
+        [Header("Variables for this bodies limits.")]
+        [SerializeField] private float maxWalkableSlopeAngle = 60.0f;
+
         private Rigidbody rb;
         private Displacement displacement;
         private Rotation rotation;
@@ -62,7 +64,8 @@ namespace Movement
 
             if (IsGrounded())
             {
-                rb.velocity = movementDirection * Mathf.Lerp(0, maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0);
+                float slopeMultiplier = CalculateSlopeMultiplier();
+                rb.velocity = (movementDirection * Mathf.Lerp(0, maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0)) * slopeMultiplier;
             }
             else
             {
@@ -111,7 +114,8 @@ namespace Movement
 
         private bool IsGrounded()
         {
-            Vector3 sphereCenter = rb.position + Vector3.up * groundedSphereRadius; // Adjusted center to prevent intersecting with the ground
+            // Adjusted center to prevent intersecting with the ground
+            Vector3 sphereCenter = rb.position + Vector3.up * groundedSphereRadius; 
             return Physics.SphereCast(sphereCenter, groundedSphereRadius, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
         }
 
@@ -121,6 +125,35 @@ namespace Movement
             {
                 jump.PerformJump();
             }
+        }
+
+        //In the future, the following function can be moved into it's own class, just like displacement and jump, for more complex slope management.
+
+        /// <summary>
+        /// This function tries to cast a ray onto the floor.
+        /// If succesfull, it calculates the angle between a vertical line, and the floors normal.
+        /// Then, it lerps between 1 and 0 depending on the resulting angle.
+        /// Angles close to maxWalkableSlopeAngle return 0, and angles close to 0 return 1
+        /// If it was unable to find the floor, it defaults to 1
+        /// The resulting number is intended to be multiplied with the characters rigidbody properties, like velocity, to reduce them depending on the slope.
+        /// </summary>
+        /// <returns></returns>
+        private float CalculateSlopeMultiplier()
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(rb.position, Vector3.down, out hit, groundCheckDistance, groundLayer))
+            {
+                // Get the angle between the hit normal and a vertical line
+                float angle = Vector3.Angle(hit.normal, Vector3.up);
+                if (angle > maxWalkableSlopeAngle)
+                {
+                    return 0.0f;
+                }
+                // Lerp between 1 and 0, where angles close to maxWalkableSlopeAngle return 0, and angles close to 0 return 1
+                return Mathf.InverseLerp(maxWalkableSlopeAngle, 0, angle);
+            }
+            // Default to 1 if no ground detected 
+            return 1.0f; 
         }
     }
 }
