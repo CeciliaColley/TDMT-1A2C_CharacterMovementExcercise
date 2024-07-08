@@ -20,6 +20,11 @@ namespace Movement
             this.monoBehaviour = monoBehaviour;
         }
 
+        public void SetRotationSpeed(float newRotationSpeed)
+        {
+            rotationSpeed = newRotationSpeed;
+        }
+
         public void Rotate(Vector3 direction)
         {
             Vector3 orientedDirection = orientation.TransformDirection(direction);

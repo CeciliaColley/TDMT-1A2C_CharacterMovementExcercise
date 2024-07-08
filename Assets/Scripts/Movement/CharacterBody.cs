@@ -166,9 +166,9 @@ namespace Movement
         [SerializeField] private float maxSprintSpeed = 7.0f;
         [SerializeField] private float maxSpeed = 5.0f;
         [Tooltip("How many seconds it takes to reach Max Speed")]
-        [SerializeField] private float acceleration = 5.0f;
+        [SerializeField] private float accelerationTime = 5.0f;
         [Tooltip("How many seconds it takes to go from Max Speed to 0")]
-        [SerializeField] private float deceleration = 5.0f;
+        [SerializeField] private float decelerationTime = 5.0f;
 
         [Header("References for character rotation and orientation")]
         [SerializeField] private GameObject characterContainer;
@@ -191,14 +191,19 @@ namespace Movement
                 return;
             }
             rb.freezeRotation = true;
-            displacement = new Displacement(rb, acceleration, deceleration, this);
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            displacement = new Displacement(rb, accelerationTime, decelerationTime, this);
             rotation = new Rotation(rotationSpeed, character, orientation, this);
         }
 
         private void FixedUpdate()
         {
             movementDirection = inputDirection.x * orientation.right + inputDirection.z * orientation.forward;
-            rb.velocity = movementDirection * Mathf.Lerp(0, maxSpeed, displacement.SpeedLerpValue);
+            rb.velocity = movementDirection * Mathf.Lerp(0, maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0);
+        }
+
+        private void LateUpdate()
+        {
             characterContainer.transform.rotation = orientation.rotation;
         }
 
@@ -206,8 +211,12 @@ namespace Movement
         {
             if (displacement != null)
             {
-                displacement.SetAcceleration(acceleration);
-                displacement.SetDeceleration(deceleration);
+                displacement.SetAcceleration(accelerationTime);
+                displacement.SetDeceleration(decelerationTime);
+            }
+            if (rotation != null)
+            {
+                rotation.SetRotationSpeed(rotationSpeed);
             }
         }
 
