@@ -12092,7 +12092,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTarget: {fileID: 1423985655}
   smoothSpeed: 0.125
-  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &819081876
 GameObject:
   m_ObjectHideFlags: 0
@@ -26477,6 +26476,12 @@ MonoBehaviour:
   character: {fileID: 2125847659}
   rotationSpeed: 0.5
   playerOrientation: {fileID: 981114004}
+  jumpForce: 15
+  groundCheckDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  additionalGravity: 20
 --- !u!114 &1963025842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26562,7 +26567,19 @@ MonoBehaviour:
     m_ActionId: 8737a3be-7246-49b5-b21d-31486186d79d
     m_ActionName: Movement/Look[/Mouse/delta,/Pen/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1963025843}
+        m_TargetAssemblyTypeName: Input.InputReader, Assembly-CSharp
+        m_MethodName: HandleJumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: c5ecb858-229b-4247-9696-d3ed1eb9ba26
     m_ActionName: Movement/Jump[/Keyboard/space]
   - m_PersistentCalls:
@@ -26624,10 +26641,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterCamera: {fileID: 811304133}
   cameraContainer: {fileID: 308211024}
-  cameraOrientation: {fileID: 569927619}
-  playerOrientation: {fileID: 981114004}
   sensitivity: 5
   rotationSmoothTime: 0.1
+  cameraOrientation: {fileID: 569927619}
+  playerOrientation: {fileID: 981114004}
 --- !u!1 &1991374712
 GameObject:
   m_ObjectHideFlags: 0

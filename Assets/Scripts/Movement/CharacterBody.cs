@@ -24,9 +24,15 @@ namespace Movement
         [SerializeField] private float rotationSpeed;
         [SerializeField] private Transform playerOrientation;
 
+        [Header("References for jumping")]
+        [SerializeField] private float jumpForce = 7.0f;
+        [SerializeField] private float groundCheckDistance = 1.0f;
+        [SerializeField] private LayerMask groundLayer;
+        [SerializeField] private float additionalGravity = 10.0f;
         private Rigidbody rb;
         private Displacement displacement;
         private Rotation rotation;
+        private Jump jump;
         private Vector3 inputDirection;
         private Vector3 movementDirection;
 
@@ -42,12 +48,18 @@ namespace Movement
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             displacement = new Displacement(rb, accelerationTime, decelerationTime, this);
             rotation = new Rotation(rotationSpeed, character, playerOrientation, this);
+            jump = new Jump(rb, jumpForce);
         }
 
         private void FixedUpdate()
         {
             movementDirection = inputDirection.x * playerOrientation.right + inputDirection.z * playerOrientation.forward;
             rb.velocity = movementDirection * Mathf.Lerp(0, maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0);
+
+            if (!IsGrounded())
+            {
+                rb.AddForce(Vector3.down * additionalGravity, ForceMode.Acceleration);
+            }
         }
 
         private void LateUpdate()
@@ -83,6 +95,20 @@ namespace Movement
         public void Decelerate()
         {
             displacement.Decelerate();
+        }
+
+        private bool IsGrounded()
+        {
+            RaycastHit hit;
+            return Physics.Raycast(rb.position, Vector3.down, out hit, groundCheckDistance, groundLayer);
+        }
+
+        public void PerformJump()
+        {
+            if (IsGrounded())
+            {
+                jump.PerformJump();
+            }
         }
     }
 }

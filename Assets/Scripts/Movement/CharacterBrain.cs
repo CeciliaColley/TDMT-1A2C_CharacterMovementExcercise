@@ -22,14 +22,16 @@ namespace Movement
 
         private void OnEnable()
         {
-            inputReader.onMovementInput += HandleMovement;
+            inputReader.onMovement += HandleMovement;
             inputReader.onLook += HandleLook;
+            inputReader.onJump += HandleJump;
         }
 
         private void OnDisable()
         {
-            inputReader.onMovementInput -= HandleMovement;
+            inputReader.onMovement -= HandleMovement;
             inputReader.onLook -= HandleLook;
+            inputReader.onJump -= HandleJump;
         }
 
         private void HandleMovement(Vector2 movementInput, InputActionPhase phase)
@@ -48,6 +50,11 @@ namespace Movement
         private void HandleLook(Vector2 lookInput)
         {
             eyes.Look(lookInput);
+        }
+
+        private void HandleJump()
+        {
+            body.PerformJump();
         }
     }
 }

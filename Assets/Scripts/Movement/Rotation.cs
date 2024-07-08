@@ -15,8 +15,8 @@ namespace Movement
          * Index:
          *   - Variables
          *   - Constructors
-         *   - Functions
          *   - Getters and setters
+         *   - Functions
          *   - Coroutines
          */
 
@@ -71,6 +71,7 @@ namespace Movement
 
 
         // Smoothly rotate the character to the target rotation that we calculated, over a period of time.
+        // As with all character movement, the rotation runs in fixed update.
         private IEnumerator RotationLerp(Quaternion targetRotation)
         {
             float time = 0;
