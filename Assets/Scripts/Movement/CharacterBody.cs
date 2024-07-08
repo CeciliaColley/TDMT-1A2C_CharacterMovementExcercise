@@ -174,7 +174,7 @@ namespace Movement
         [SerializeField] private GameObject characterContainer;
         [SerializeField] private GameObject character;
         [SerializeField] private float rotationSpeed;
-        [SerializeField] private Transform orientation;
+        [SerializeField] private Transform playerOrientation;
 
         private Rigidbody rb;
         private Displacement displacement;
@@ -193,18 +193,18 @@ namespace Movement
             rb.freezeRotation = true;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             displacement = new Displacement(rb, accelerationTime, decelerationTime, this);
-            rotation = new Rotation(rotationSpeed, character, orientation, this);
+            rotation = new Rotation(rotationSpeed, character, playerOrientation, this);
         }
 
         private void FixedUpdate()
         {
-            movementDirection = inputDirection.x * orientation.right + inputDirection.z * orientation.forward;
+            movementDirection = inputDirection.x * playerOrientation.right + inputDirection.z * playerOrientation.forward;
             rb.velocity = movementDirection * Mathf.Lerp(0, maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0);
         }
 
         private void LateUpdate()
         {
-            characterContainer.transform.rotation = orientation.rotation;
+            characterContainer.transform.rotation = playerOrientation.rotation;
         }
 
         private void OnValidate()

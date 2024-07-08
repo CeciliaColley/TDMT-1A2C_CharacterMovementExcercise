@@ -9575,7 +9575,7 @@ GameObject:
   m_Component:
   - component: {fileID: 569927619}
   m_Layer: 0
-  m_Name: Orientation
+  m_Name: Camera Orientation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13928,6 +13928,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1389767784}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &981114003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 981114004}
+  m_Layer: 0
+  m_Name: Player Orientation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &981114004
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981114003}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1963025840}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1007022900
 Mesh:
   m_ObjectHideFlags: 0
@@ -26422,6 +26453,7 @@ Transform:
   m_Children:
   - {fileID: 96499115}
   - {fileID: 569927619}
+  - {fileID: 981114004}
   - {fileID: 308211024}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26444,7 +26476,7 @@ MonoBehaviour:
   characterContainer: {fileID: 96499114}
   character: {fileID: 2125847659}
   rotationSpeed: 0.5
-  orientation: {fileID: 569927619}
+  playerOrientation: {fileID: 981114004}
 --- !u!114 &1963025842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26592,7 +26624,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterCamera: {fileID: 811304133}
   cameraContainer: {fileID: 308211024}
-  orientation: {fileID: 569927619}
+  cameraOrientation: {fileID: 569927619}
+  playerOrientation: {fileID: 981114004}
   sensitivity: 5
   rotationSmoothTime: 0.1
 --- !u!1 &1991374712
