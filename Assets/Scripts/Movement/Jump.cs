@@ -12,10 +12,13 @@ namespace Movement
             this.rb = rb;
             this.jumpForce = jumpForce;
         }
-
         public void PerformJump()
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+        public void SetJumpForce(float newJumpForce)
+        {
+            jumpForce = newJumpForce;
         }
     }
 }

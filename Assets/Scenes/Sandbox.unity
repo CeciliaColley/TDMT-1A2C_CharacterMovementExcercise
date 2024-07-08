@@ -870,7 +870,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 96499114}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 55fc876dec8a9414898a4d86c03f2d38, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -882,7 +882,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Height: 2.15
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -6619,7 +6619,7 @@ GameObject:
   - component: {fileID: 423603394}
   - component: {fileID: 423603393}
   - component: {fileID: 423603392}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24049,6 +24049,69 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &1804452491
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1804452494}
+  - component: {fileID: 1804452493}
+  - component: {fileID: 1804452492}
+  m_Layer: 6
+  m_Name: Floor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &1804452492
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804452491}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!33 &1804452493
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804452491}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1804452494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804452491}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.6962, y: 0, z: 8.9795}
+  m_LocalScale: {x: 9.048742, y: 11.03, z: 8.65729}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1804570057
 GameObject:
   m_ObjectHideFlags: 0
@@ -26446,7 +26509,7 @@ Transform:
   m_GameObject: {fileID: 1963025838}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 1, z: -31.4}
+  m_LocalPosition: {x: 0.1, y: 1, z: -28.069}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26476,8 +26539,10 @@ MonoBehaviour:
   character: {fileID: 2125847659}
   rotationSpeed: 0.5
   playerOrientation: {fileID: 981114004}
+  directionalJumping: 1
   jumpForce: 15
-  groundCheckDistance: 1
+  groundedSphereRadius: 0.3
+  groundCheckDistance: 0.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -27757,3 +27822,4 @@ SceneRoots:
   - {fileID: 1389767784}
   - {fileID: 427954463}
   - {fileID: 1963025840}
+  - {fileID: 1804452494}

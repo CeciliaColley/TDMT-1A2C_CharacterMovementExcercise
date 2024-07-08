@@ -1,4 +1,5 @@
 
+using System.Collections;
 using UnityEngine;
 
 namespace Movement
@@ -25,10 +26,14 @@ namespace Movement
         [SerializeField] private Transform playerOrientation;
 
         [Header("References for jumping")]
+        [SerializeField] private bool directionalJumping = true;
         [SerializeField] private float jumpForce = 7.0f;
-        [SerializeField] private float groundCheckDistance = 1.0f;
+        [Tooltip("The radius of the sphere that checks for a collision with the ground. It should be the same radius as the character collider.")]
+        [SerializeField] private float groundedSphereRadius = 0.3f;
+        [SerializeField] private float groundCheckDistance = 0.5f;
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private float additionalGravity = 10.0f;
+        
         private Rigidbody rb;
         private Displacement displacement;
         private Rotation rotation;
@@ -54,9 +59,12 @@ namespace Movement
         private void FixedUpdate()
         {
             movementDirection = inputDirection.x * playerOrientation.right + inputDirection.z * playerOrientation.forward;
-            rb.velocity = movementDirection * Mathf.Lerp(0, maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0);
 
-            if (!IsGrounded())
+            if (IsGrounded())
+            {
+                rb.velocity = movementDirection * Mathf.Lerp(0, maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0);
+            }
+            else
             {
                 rb.AddForce(Vector3.down * additionalGravity, ForceMode.Acceleration);
             }
@@ -77,6 +85,10 @@ namespace Movement
             if (rotation != null)
             {
                 rotation.SetRotationSpeed(rotationSpeed);
+            }
+            if (jump != null)
+            {
+                jump.SetJumpForce(jumpForce);
             }
         }
 
@@ -99,8 +111,8 @@ namespace Movement
 
         private bool IsGrounded()
         {
-            RaycastHit hit;
-            return Physics.Raycast(rb.position, Vector3.down, out hit, groundCheckDistance, groundLayer);
+            Vector3 sphereCenter = rb.position + Vector3.up * groundedSphereRadius; // Adjusted center to prevent intersecting with the ground
+            return Physics.SphereCast(sphereCenter, groundedSphereRadius, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
         }
 
         public void PerformJump()
