@@ -12,8 +12,8 @@ namespace Movement
     public class CharacterBody : MonoBehaviour
     {
         [Header("References for characters displacement")]
-        [SerializeField] private float maxSprintSpeed = 7.0f;
-        [SerializeField] private float maxSpeed = 5.0f;
+        [SerializeField] private float maxSprintSpeed = 15.0f;
+        [SerializeField] private float maxSpeed = 10.0f;
         [Tooltip("How many seconds it takes to reach Max Speed")]
         [SerializeField] private float accelerationTime = 5.0f;
         [Tooltip("How many seconds it takes to go from Max Speed to 0")]
@@ -42,6 +42,7 @@ namespace Movement
         private Jump jump;
         private Vector3 inputDirection;
         private Vector3 movementDirection;
+        private float _maxSpeed;
 
         private void Awake()
         {
@@ -53,9 +54,10 @@ namespace Movement
             }
             rb.freezeRotation = true;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
-            displacement = new Displacement(rb, accelerationTime, decelerationTime, this);
+            displacement = new Displacement(accelerationTime, decelerationTime, this);
             rotation = new Rotation(rotationSpeed, character, playerOrientation, this);
             jump = new Jump(rb, jumpForce);
+            _maxSpeed = maxSpeed;
         }
 
         private void FixedUpdate()
@@ -65,7 +67,7 @@ namespace Movement
             if (IsGrounded())
             {
                 float slopeMultiplier = CalculateSlopeMultiplier();
-                rb.velocity = (movementDirection * Mathf.Lerp(0, maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0)) * slopeMultiplier;
+                rb.velocity = (movementDirection * Mathf.Lerp(0, _maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0)) * slopeMultiplier;
             }
             else
             {
@@ -154,6 +156,18 @@ namespace Movement
             }
             // Default to 1 if no ground detected 
             return 1.0f; 
+        }
+
+        public void Sprint(bool performed)
+        {
+            if (performed)
+            {
+                _maxSpeed = maxSprintSpeed;
+            }
+            else
+            {
+                _maxSpeed = maxSpeed;
+            }
         }
     }
 }

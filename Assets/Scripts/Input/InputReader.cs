@@ -13,6 +13,8 @@ namespace Input
         public event Action onJump = delegate { };
 
         public event Action<Vector2> onLook = delegate { };
+
+        public event Action<InputActionPhase> onSprint = delegate { };
         public void HandleMovementInput(InputAction.CallbackContext ctx)
         {
             onMovement.Invoke(ctx.ReadValue<Vector2>(), ctx.phase);
@@ -27,6 +29,10 @@ namespace Input
         public void HandleLookInput(InputAction.CallbackContext ctx)
         {
             onLook.Invoke(ctx.ReadValue<Vector2>());
+        }
+        public void HandleSprintInput(InputAction.CallbackContext ctx)
+        {
+            onSprint.Invoke(ctx.phase);
         }
     }
 }

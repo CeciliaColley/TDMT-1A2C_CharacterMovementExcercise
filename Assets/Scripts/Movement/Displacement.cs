@@ -15,7 +15,6 @@ namespace Movement
          */
 
         /*************************************************************************** VARIABLES ***************************************************************/
-        private Rigidbody rb;
         private float acceleration;
         private float deceleration;
         private float speedLerpValue = 0.0f;
@@ -28,9 +27,8 @@ namespace Movement
 
 
         /*************************************************************************** CONSTRUCTORS ***************************************************************/
-        public Displacement(Rigidbody rb, float acceleration, float deceleration, MonoBehaviour monoBehaviour)
+        public Displacement(float acceleration, float deceleration, MonoBehaviour monoBehaviour)
         {
-            this.rb = rb;
             this.acceleration = acceleration;
             this.deceleration = deceleration;
             this.monoBehaviour = monoBehaviour;
