@@ -34,14 +34,14 @@ namespace Movement
 
         private void HandleMovement(Vector2 movementInput, InputActionPhase phase)
         {
-            Vector3 moveVector = new Vector3(movementInput.x, 0, movementInput.y);
+            Vector3 inputDirection = new Vector3(movementInput.x, 0, movementInput.y);
             if (phase == InputActionPhase.Performed)
             {
-                body.Move(moveVector);
+                body.Move(inputDirection);
             }
-            if (phase == InputActionPhase.Canceled && moveVector == Vector3.zero)
+            if (phase == InputActionPhase.Canceled && inputDirection == Vector3.zero)
             {
-                body.Break(moveVector);
+                body.Decelerate();
             }
         }
 

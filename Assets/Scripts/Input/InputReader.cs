@@ -24,7 +24,6 @@ namespace Input
                 onJumpInput.Invoke();
             }
         }
-
         public void HandleLookInput(InputAction.CallbackContext ctx)
         {
             onLook.Invoke(ctx.ReadValue<Vector2>());
