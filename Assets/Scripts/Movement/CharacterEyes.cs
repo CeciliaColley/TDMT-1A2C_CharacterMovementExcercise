@@ -2,15 +2,25 @@ using UnityEngine;
 
 namespace Movement
 {
+    /// <summary>
+    /// This class interfaces with the camera and the character to determine their orientation based off of mouse input (or the equivalent control for non PC platforms.).
+    /// </summary>
     public class CharacterEyes : MonoBehaviour
     {
+        [Tooltip("A reference to the scenes camera")]
         [SerializeField] private Camera characterCamera;
+        [Tooltip("A reference to the game object that contains the camera's target. The camera container is intended to be a cilinder with it's mesh deactivated. Since the camera target is it's child, when it rotates on spot the camera target rotates too, maintining a constant distance to the camera containers center.")]
         [SerializeField] private Transform cameraContainer;
+        [Tooltip("How sensitive the mouse is.")]
         [SerializeField] private float sensitivity = 5.0f;
+        [Tooltip("Percentage of the actual movement to complete per frame. Higher values mean the camera and character's rotation will more accurately (less smoothly) follow the mouse's input.")]
+        [Range(0.001f, 1.0f)]
         [SerializeField] private float rotationSmoothTime = 0.1f;
 
         // Separate orientation references for the camera and the player are used to avoid conflicts between the camera's LateUpdate logic and the player's FixedUpdate movement.
+        [Tooltip("A reference to the game object that represents and controls the camera's rotation values. This game object's position should not be updated by anyone else.")]
         [SerializeField] private Transform cameraOrientation;
+        [Tooltip("A reference to the game object that represents and controls the player's rotation values. This game object's position should not be updated by anyone else.")]
         [SerializeField] private Transform playerOrientation;
         
         private float xRotation;

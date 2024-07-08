@@ -4,15 +4,20 @@ namespace CameraControl
 {
     public class FollowTarget : MonoBehaviour
     {
+        
+        // WARNING: ALL CAMERA LOGIC IS RUN IN LATE UPDATE.
+
+        [Tooltip("The scenes camera, or the camera intended to follow the target")]
         [SerializeField] private Transform cameraTarget;
-        [SerializeField] private float smoothSpeed = 0.125f; // Speed at which the camera follows the target
-        [SerializeField] private Vector3 offset; // Offset to maintain relative to the target
+        [Tooltip("Speed at which the camera follows the target")]
+        [SerializeField] private float smoothSpeed = 0.125f;
+       
+        // This variable can be used to move the camera realtive the it's target at runtime. 
+        private Vector3 offset;
 
         private void LateUpdate()
         {
-            // Calculate the desired position with the offset
             Vector3 desiredPosition = cameraTarget.position + offset;
-            // Smoothly interpolate towards the desired position
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
             transform.position = smoothedPosition;
         }
