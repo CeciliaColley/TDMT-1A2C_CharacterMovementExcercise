@@ -12,7 +12,7 @@ namespace CameraControl
         [Tooltip("Speed at which the camera follows the target")]
         [SerializeField] private float smoothSpeed = 0.125f;
        
-        // This variable can be used to move the camera realtive the it's target at runtime. 
+        // This variable can be used to move the camera realtive the it's target while the game is running. I'm not using it, but it could be useful for different effects like zooming. 
         private Vector3 offset;
 
         private void LateUpdate()

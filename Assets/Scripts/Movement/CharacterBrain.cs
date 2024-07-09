@@ -6,6 +6,8 @@ namespace Movement
 {
     public class ControllerBrain : MonoBehaviour
     {
+        /*************************************************************************** VARIABLES ***************************************************************/
+
         [SerializeField] private InputReader inputReader;
         [SerializeField] private CharacterBody body;
         [SerializeField] private CharacterEyes eyes;
@@ -20,6 +22,7 @@ namespace Movement
             
         }
 
+        /*************************************************************************** SUBSCRIBING TO EVENTS ***************************************************************/
         private void OnEnable()
         {
             inputReader.onMovement += HandleMovement;
@@ -35,6 +38,8 @@ namespace Movement
             inputReader.onJump -= HandleJump;
             inputReader.onSprint -= HandleSprint;
         }
+
+        /*************************************************************************** HANDLING INPUT ***************************************************************/
 
         private void HandleMovement(Vector2 movementInput, InputActionPhase phase)
         {

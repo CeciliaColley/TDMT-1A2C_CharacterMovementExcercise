@@ -39,7 +39,7 @@ namespace Movement
         {
             if (!rigidBody || !animator || !body) { return; }
 
-            // Get the horizontal speed
+            // Get the horizontal speed for the blend tree
             Vector3 velocity = rigidBody.velocity;
             velocity.y = 0;
             float speed = velocity.magnitude;

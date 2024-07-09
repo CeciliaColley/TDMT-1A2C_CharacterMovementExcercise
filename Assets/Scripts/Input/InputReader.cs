@@ -8,6 +8,7 @@ namespace Input
 {
     public class InputReader : MonoBehaviour
     {
+        /*************************************************************************** DECLARING EVENTS ***************************************************************/
         public event Action<Vector2, InputActionPhase> onMovement = delegate { };
 
         public event Action onJump = delegate { };
@@ -15,6 +16,8 @@ namespace Input
         public event Action<Vector2> onLook = delegate { };
 
         public event Action<InputActionPhase> onSprint = delegate { };
+
+        /*************************************************************************** INVOKING METHODS  ***************************************************************/
         public void HandleMovementInput(InputAction.CallbackContext ctx)
         {
             onMovement.Invoke(ctx.ReadValue<Vector2>(), ctx.phase);
