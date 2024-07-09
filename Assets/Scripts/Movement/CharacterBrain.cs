@@ -33,7 +33,7 @@ namespace Movement
             inputReader.onMovement -= HandleMovement;
             inputReader.onLook -= HandleLook;
             inputReader.onJump -= HandleJump;
-            inputReader.onSprint += HandleSprint;
+            inputReader.onSprint -= HandleSprint;
         }
 
         private void HandleMovement(Vector2 movementInput, InputActionPhase phase)

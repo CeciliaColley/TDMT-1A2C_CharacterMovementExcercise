@@ -6619,7 +6619,7 @@ GameObject:
   - component: {fileID: 423603394}
   - component: {fileID: 423603393}
   - component: {fileID: 423603392}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7418,6 +7418,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c5ecb858-229b-4247-9696-d3ed1eb9ba26
     m_ActionName: Movement/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ddc4963e-a51f-4c0a-8abf-f49ccee7253b
+    m_ActionName: Movement/Sprint[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Movement
@@ -9186,7 +9190,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 66559476bb752f04981e262001456919, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2125847662}
   m_SourcePrefab: {fileID: 100100000, guid: 66559476bb752f04981e262001456919, type: 3}
 --- !u!1 &534842831
 GameObject:
@@ -26531,10 +26538,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1e1b121de8cc049a4545f678ebe0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSprintSpeed: 15
-  maxSpeed: 10
-  accelerationTime: 2
-  decelerationTime: 0.3
+  maxSprintSpeed: 10
+  maxSpeed: 7
+  accelerationTime: 0.3
+  decelerationTime: 0.5
   characterContainer: {fileID: 96499114}
   character: {fileID: 2125847659}
   rotationSpeed: 0.5
@@ -27820,6 +27827,30 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 66559476bb752f04981e262001456919, type: 3}
   m_PrefabInstance: {fileID: 505805225}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &2125847661 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 66559476bb752f04981e262001456919, type: 3}
+  m_PrefabInstance: {fileID: 505805225}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2125847662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125847659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ed128dc2fc82f74f88b834b1e8c1f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputReader: {fileID: 1963025843}
+  animator: {fileID: 2125847661}
+  rigidBody: {fileID: 1963025839}
+  body: {fileID: 1963025841}
+  jumpTriggerParameter: Jumping
+  isFallingParameter: is_falling
+  horSpeedParameter: hor_speed
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

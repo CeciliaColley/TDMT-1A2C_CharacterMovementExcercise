@@ -7,6 +7,8 @@ namespace Movement
         private Rigidbody rb;
         private float jumpForce;
 
+        public static bool jumped;
+
         public Jump(Rigidbody rb, float jumpForce) 
         {
             this.rb = rb;

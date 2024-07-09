@@ -58,20 +58,24 @@ namespace Movement
             rotation = new Rotation(rotationSpeed, character, playerOrientation, this);
             jump = new Jump(rb, jumpForce);
             _maxSpeed = maxSpeed;
+            Jump.jumped = false;
         }
 
         private void FixedUpdate()
         {
             movementDirection = inputDirection.x * playerOrientation.right + inputDirection.z * playerOrientation.forward;
 
-            if (IsGrounded())
+            float slopeMultiplier = CalculateSlopeMultiplier();
+            rb.velocity = (movementDirection * Mathf.Lerp(0, _maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0)) * slopeMultiplier;
+
+            if (!IsGrounded())
             {
-                float slopeMultiplier = CalculateSlopeMultiplier();
-                rb.velocity = (movementDirection * Mathf.Lerp(0, _maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0)) * slopeMultiplier;
+                Jump.jumped = true;
+                rb.AddForce(Vector3.down * additionalGravity, ForceMode.Acceleration);
             }
             else
             {
-                rb.AddForce(Vector3.down * additionalGravity, ForceMode.Acceleration);
+                Jump.jumped = false;
             }
         }
 
@@ -117,7 +121,7 @@ namespace Movement
         private bool IsGrounded()
         {
             // Adjusted center to prevent intersecting with the ground
-            Vector3 sphereCenter = rb.position + Vector3.up * groundedSphereRadius; 
+            Vector3 sphereCenter = rb.position + Vector3.up * groundedSphereRadius;
             return Physics.SphereCast(sphereCenter, groundedSphereRadius, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
         }
 
@@ -130,7 +134,6 @@ namespace Movement
         }
 
         //In the future, the following function can be moved into it's own class, just like displacement and jump, for more complex slope management.
-
         /// <summary>
         /// This function tries to cast a ray onto the floor.
         /// If succesfull, it calculates the angle between a vertical line, and the floors normal.
@@ -167,6 +170,14 @@ namespace Movement
             else
             {
                 _maxSpeed = maxSpeed;
+            }
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (!IsGrounded())
+            {
+                inputDirection = Vector3.zero;
             }
         }
     }
