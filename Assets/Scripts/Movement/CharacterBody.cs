@@ -96,8 +96,13 @@ namespace Movement
 
             // slope multiplier is a number between 1 and 0. Calculate it to simulate effort when walking up slopes. 
             float slopeMultiplier = CalculateSlopeMultiplier();
+
             // Apply a velocity to the rigid body.
-            rb.velocity = (movementDirection * Mathf.Lerp(0, _maxSpeed, displacement.SpeedLerpValue) + new Vector3(0, rb.velocity.y, 0)) * slopeMultiplier;
+            float lerpedSpeed = Mathf.Lerp(0, _maxSpeed, displacement.SpeedLerpValue);
+            if(!float.IsNaN(lerpedSpeed))
+            {
+                rb.velocity = (movementDirection * lerpedSpeed + new Vector3(0, rb.velocity.y, 0)) * slopeMultiplier;
+            }
 
             // Handle the jump logic
             if (!IsGrounded() && additionalGravity > 0)
