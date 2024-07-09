@@ -17,14 +17,22 @@ namespace Movement
         [SerializeField] private string isFallingParameter = "is_falling";
         [SerializeField] private string horSpeedParameter = "hor_speed";
 
+        private void Start()
+        {
+            if (animator)
+            {
+                animator.SetBool(isFallingParameter, false);
+            }
+        }
+
         private void OnEnable()
         {
-            inputReader.onJump += HandleJump;
+            Jump.onJumped += HandleJump;
         }
 
         private void OnDisable()
         {
-            inputReader.onJump -= HandleJump;
+            Jump.onJumped -= HandleJump;
         }
 
         private void Update()
@@ -38,14 +46,15 @@ namespace Movement
 
             // Update the animator with the horizontal speed
             animator.SetFloat(horSpeedParameter, speed);
-
-            // Update the animator's falling state
-            animator.SetBool(isFallingParameter, Jump.jumped);
         }
 
-        private void HandleJump()
+        private void HandleJump(bool jumpedValue)
         {
             if (animator)
+            {
+                animator.SetBool(isFallingParameter, jumpedValue);
+            }
+            if (animator && jumpedValue == true)
             {
                 animator.SetTrigger(jumpTriggerParameter);
             }

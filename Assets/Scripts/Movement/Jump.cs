@@ -7,7 +7,7 @@ namespace Movement
         private Rigidbody rb;
         private float jumpForce;
 
-        public static bool jumped;
+        private static bool jumped = false;
 
         public Jump(Rigidbody rb, float jumpForce) 
         {
@@ -16,11 +16,27 @@ namespace Movement
         }
         public void PerformJump()
         {
+            Jumped = true;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
         public void SetJumpForce(float newJumpForce)
         {
             jumpForce = newJumpForce;
+        }
+
+        public static Action<bool> onJumped;
+        
+        public bool Jumped
+        {
+            get { return jumped; }
+            set 
+            { 
+                if (value != jumped)
+                {
+                    onJumped?.Invoke(value);
+                }
+                jumped = value; 
+            }
         }
     }
 }

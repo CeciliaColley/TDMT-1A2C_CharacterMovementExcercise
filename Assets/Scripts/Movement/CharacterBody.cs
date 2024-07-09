@@ -58,7 +58,6 @@ namespace Movement
             rotation = new Rotation(rotationSpeed, character, playerOrientation, this);
             jump = new Jump(rb, jumpForce);
             _maxSpeed = maxSpeed;
-            Jump.jumped = false;
         }
 
         private void FixedUpdate()
@@ -70,12 +69,11 @@ namespace Movement
 
             if (!IsGrounded())
             {
-                Jump.jumped = true;
                 rb.AddForce(Vector3.down * additionalGravity, ForceMode.Acceleration);
             }
-            else
+            else if (jump.Jumped)
             {
-                Jump.jumped = false;
+                jump.Jumped = false;
             }
         }
 
@@ -173,9 +171,22 @@ namespace Movement
             }
         }
 
+        // STUDENT NOTE:
+        // I HAVE USED THIS METHOD ON THE BIG STAIRS (THE BRIGHT PINK ONES THAT COME OFF THE PLATFORM) TO SHOWCASE HOW IT CHANGES THE MECHANIC.
+        // IT MAKES THE PLAYER STOP WHERE THEY LAND, MAKING THE GAME A BIT EASIER.
+        // ITS UP TO THE GAME DESIGNER WHETHER THEY WANT TO USE THIS MODE, OR THE MORE DIFFICULT MODE.
+        // IF THEY DON'T WANT TO USE IT, THEN JUST KEEP THE STAIRS IN THE FLOOR LAYER COMPLETELY.
+        // IT'S A NICE OPTION TO HAVE.
+
+        /// <summary>
+        /// This function stops the game object when they collide with another object that isn't the floor. 
+        /// This is useful because it can make the game more precise. 
+        /// The player will stop exactly where they land, as long as the objec they're landing on has a collider that ISN'T on the floor.
+        /// In other words, to get the player to stop where they land, just add a collider to the game object that isn't part of the floor layer.
+        /// </summary>
         private void OnCollisionEnter(Collision collision)
         {
-            if (!IsGrounded())
+            if (!IsGrounded() || (groundLayer.value & (1 << collision.gameObject.layer)) == 0)
             {
                 inputDirection = Vector3.zero;
             }
